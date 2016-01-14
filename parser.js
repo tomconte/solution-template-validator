@@ -1,6 +1,6 @@
 var template, params, vars = {};
 
-function parse(string)
+function parse()
 {
   // Load the base template
   template = require('../base-solution-template/mainTemplate.json');
@@ -10,20 +10,38 @@ function parse(string)
   
   // Fake the base URL; assumes the property is named "templateBaseUrl"
   params.parameters.templateBaseUrl = { value: '.' };
+
+  return process_template();
+}
+
+/*
+** Process the template
+*/
+
+function process_template()
+{
+  var val;
   
   // Process the variables
-  var val;
   for (var v in template.variables) {
     val = template.variables[v];
     if (typeof val === 'string') {
       val = string_eval(val);
     }
     vars[v] = val;      
-    console.log(v + '=' + val);
+    //console.log(v + '=' + val);
   }
 
-  // Load the sub-templates into the main object
-
+  // Load the JSON sub-templates into the main object
+  for (var r in template.resources) {
+    if (template.resources[r].type === 'Microsoft.Resources/deployments') {
+      val = string_eval(template.resources[r].properties.templateLink.uri);
+      // TODO: good luck figuring out what this does ;-)
+      template.resources.splice.apply(template.resources, 
+        [r, 1].concat(require('../base-solution-template/' + val).resources));
+    }
+  }
+  
   // Process all the value strings: walk the object graph and process all properties
   
   return template;

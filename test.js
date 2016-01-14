@@ -1,3 +1,7 @@
+/*
+** https://github.com/azure/azure-marketplace
+*/
+
 var assert = require('assert');
 var parser = require('./parser');
 
