@@ -24,7 +24,11 @@ describe('Template', function() {
 
   });
 
-  describe('Location parameter', function() {
+  describe('location parameter', function() {
+    
+    it('should exist', function() {
+      template.parameters.should.have.property('location');
+    });
 
     it('should not include allowedValues', function() {
       template.parameters.location.should.not.have.property('allowedValues');
