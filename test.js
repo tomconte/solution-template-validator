@@ -59,9 +59,9 @@ describe('Template', function() {
   describe('apiVersion', function() {
 
     // TODO: How do you know the apiVersion is "the latest"??
-    it.skip('MUST be either be the latest version or have a date within 12 months of publishing', function() {
+    it('MUST be either be the latest version or have a date within 12 months of publishing', function() {
       for (var res in template.resources) {
-        //console.log(template.resources[res].apiVersion);
+        template.resources[res].apiVersion.should.equal('2015-06-15');
       }
     });
 
