@@ -114,4 +114,10 @@ function resourceGroup()
   return { id: 'mockRGId', name: 'mockRGName', location: "mockRGLocation" };
 }
 
+// Mock index
+function copyIndex()
+{
+  return 1;
+}
+
 exports.parse = parse;
