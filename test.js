@@ -40,7 +40,7 @@ describe('Template', function() {
 
   });
 
-  describe('Microsoft.Compute/virtualMachines', function() {
+  describe('Virtual Machines', function() {
 
     it('must use imageReference', function() {
       for (var res in template.resources) {
@@ -70,4 +70,18 @@ describe('Template', function() {
     });
 
   });
+  
+  describe('Linux Virtual Machines', function() {
+    
+    it('must support SSH keys', function() {
+      for (var res in template.resources) {
+        if (template.resources[res].type === 'Microsoft.Compute/virtualMachines') {
+          // TODO: how do you know this is a Linux VM?
+          template.resources[res].properties.osProfile.should.have.property('linuxConfiguration');
+        }
+      }
+    });
+    
+  });
+  
 });
