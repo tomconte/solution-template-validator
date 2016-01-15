@@ -42,9 +42,27 @@ function process_template(baseDir)
     }
   }
   
-  // Process all the value strings: walk the object graph and process all properties
+  // Process all the value strings
+  process_values(template.resources);
+  
+  //console.log(JSON.stringify(template));
   
   return template;
+}
+
+/*
+** Recursively walk the object graph and process all string properties
+*/
+
+function process_values(o)
+{
+  for (var p in o) {
+    if (typeof o[p] === 'string') {
+      o[p] = string_eval(o[p]);
+    } else {
+      process_values(o[p]);
+    }
+  }
 }
 
 /*
