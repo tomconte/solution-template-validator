@@ -1,24 +1,24 @@
 var template, params, vars = {};
 
-function parse()
+function parse(baseDir, templateFile, templateParametersFile)
 {
   // Load the base template
-  template = require('../base-solution-template/mainTemplate.json');
+  template = require(baseDir + '/' + templateFile);
   
   // Load the parameters
-  params = require('../base-solution-template/mainTemplate.parameters.json');
+  params = require(baseDir + '/' + templateParametersFile);
   
   // Fake the base URL; assumes the property is named "templateBaseUrl"
   params.parameters.templateBaseUrl = { value: '.' };
 
-  return process_template();
+  return process_template(baseDir);
 }
 
 /*
 ** Process the template
 */
 
-function process_template()
+function process_template(baseDir)
 {
   var val;
   
@@ -38,7 +38,7 @@ function process_template()
       val = string_eval(template.resources[r].properties.templateLink.uri);
       // TODO: good luck figuring out what this does ;-)
       template.resources.splice.apply(template.resources, 
-        [r, 1].concat(require('../base-solution-template/' + val).resources));
+        [r, 1].concat(require(baseDir + '/' + val).resources));
     }
   }
   
