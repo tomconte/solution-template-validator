@@ -1,11 +1,12 @@
 /*
+** Validate a Solution Template
 ** https://github.com/azure/azure-marketplace
 */
 
 var assert = require('assert');
 var parser = require('./parser');
 
-var template = parser.parse();
+var template = parser.parse('../base-solution-template', 'mainTemplate.json', 'mainTemplate.parameters.json');
 
 describe('Template', function() {
 
