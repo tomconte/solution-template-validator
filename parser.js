@@ -90,4 +90,10 @@ function variables(v)
   return vars[v];
 }
 
+// Return a mock Resource Group object
+function resourceGroup()
+{
+  return { id: 'mockRGId', name: 'mockRGName', location: "mockRGLocation" };
+}
+
 exports.parse = parse;
