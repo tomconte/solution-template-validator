@@ -28,17 +28,18 @@ function process_template(baseDir)
 
   // Load the JSON sub-templates into the main object
 
-  var deployments = [];
+  var deployments = [], deployment_idx = [];
   for (var r in template.resources) {
     if (template.resources[r].type === 'Microsoft.Resources/deployments') {
       deployments.push(template.resources[r]);
+      deployment_idx.push(r);
     }
   }
   
   for (var d in deployments) {
     // TODO: good luck figuring out what this does ;-)
     template.resources.splice.apply(template.resources, 
-      [r, 1].concat(
+      [deployment_idx[d], 1].concat(
         process_subtemplate(baseDir, 
           deployments[d].properties.templateLink.uri, 
           deployments[d].properties.parameters)));
