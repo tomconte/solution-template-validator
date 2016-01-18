@@ -26,24 +26,20 @@ function process_template(baseDir)
   // Process all the value strings in the main template
   process_values(template.resources);
 
-  // Load the JSON sub-templates into the main object
+  // Load the JSON sub-templates into a new resources array
 
-  var deployments = [], deployment_idx = [];
+  var new_resources = [];
   for (var r in template.resources) {
     if (template.resources[r].type === 'Microsoft.Resources/deployments') {
-      deployments.push(template.resources[r]);
-      deployment_idx.push(r);
+      new_resources.push(process_subtemplate(baseDir, 
+        template.resources[r].properties.templateLink.uri, 
+        template.resources[r].properties.parameters));
+    } else {
+      new_resources.push(template.resources[r]);
     }
   }
-  
-  for (var d in deployments) {
-    // TODO: good luck figuring out what this does ;-)
-    template.resources.splice.apply(template.resources, 
-      [deployment_idx[d], 1].concat(
-        process_subtemplate(baseDir, 
-          deployments[d].properties.templateLink.uri, 
-          deployments[d].properties.parameters)));
-  }
+
+  template.resources = new_resources;
   
   return template;
 }
