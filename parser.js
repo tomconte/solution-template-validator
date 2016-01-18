@@ -8,8 +8,8 @@ function parse(baseDir, templateFile, templateParametersFile)
   // Load the parameters
   params = require(baseDir + '/' + templateParametersFile);
   
-  // Fake the base URL; assumes the property is named "templateBaseUrl"
-  params.parameters.templateBaseUrl = { value: '.' };
+  // Mock the base URL; assumes the property is named "templateBaseUrl"
+  params.parameters.templateBaseUrl = { value: '' };
 
   return process_template(baseDir);
 }
@@ -25,6 +25,13 @@ function process_template(baseDir)
   // Process the variables
   for (var v in template.variables) {
     val = template.variables[v];
+    
+    // Need to handle some special cases
+    if (v === 'templateBaseUrl') {
+      vars[v] = '';
+      continue;
+    }
+    
     if (typeof val === 'string') {
       val = string_eval(val);
     }
