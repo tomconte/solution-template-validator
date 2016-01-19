@@ -59,7 +59,6 @@ function process_params(template_params)
 {
   for (var p in template_params) {
     if (template_params[p].defaultValue && !params.parameters[p]) {
-      console.log(p + " default " + template_params[p].defaultValue);
       params.parameters[p] = { value: template_params[p].defaultValue };
     }
   }
@@ -107,6 +106,7 @@ function process_subtemplate(baseDir, fileName, stParameters)
   params = { parameters: stParameters };
   vars = {};
 
+  process_params(st.parameters);
   process_variables(st);
   process_values(st.resources);
 
