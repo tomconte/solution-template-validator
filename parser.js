@@ -8,6 +8,9 @@ function parse(baseDir, templateFile, templateParametersFile)
   // Load the parameters
   params = require(baseDir + '/' + templateParametersFile);
   
+  // Assign the default values
+  process_params(template.parameters);
+  
   // Mock the base URL; assumes the property is named "templateBaseUrl"
   params.parameters.templateBaseUrl = { value: '' };
 
@@ -46,6 +49,20 @@ function process_template(baseDir)
   template.resources = new_resources;
   
   return template;
+}
+
+/*
+** Process parameters
+*/
+
+function process_params(template_params)
+{
+  for (var p in template_params) {
+    if (template_params[p].defaultValue && !params.parameters[p]) {
+      console.log(p + " default " + template_params[p].defaultValue);
+      params.parameters[p] = { value: template_params[p].defaultValue };
+    }
+  }
 }
 
 /*
