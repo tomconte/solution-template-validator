@@ -1,3 +1,5 @@
+/* global describe, it */
+
 /*
 ** Validate a Solution Template
 ** https://github.com/azure/azure-marketplace
@@ -6,7 +8,7 @@
 var should = require('should');
 var parser = require('./parser');
 
-var template = parser.parse('../base-solution-template', 'mainTemplate.json', 'mainTemplate.parameters.json');
+var template = parser.parse('../PrestaShop/azure-quickstart-templates/prestashop', 'mainTemplate.json', 'mainTemplate.parameters.json');
 
 describe('Template', function() {
 
