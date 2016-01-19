@@ -26,14 +26,18 @@ function process_template(baseDir)
   // Process all the value strings in the main template
   process_values(template.resources);
 
-  // Load the JSON sub-templates into a new resources array
+  // Process the resources array
 
-  var new_resources = [];
+  var sub_resources, new_resources = [];
   for (var r in template.resources) {
     if (template.resources[r].type === 'Microsoft.Resources/deployments') {
-      new_resources.push(process_subtemplate(baseDir, 
+      // Load & merge sub-template
+      sub_resources = process_subtemplate(baseDir, 
         template.resources[r].properties.templateLink.uri, 
-        template.resources[r].properties.parameters));
+        template.resources[r].properties.parameters);
+      for (var i=0; i < sub_resources.length; i++) {
+        new_resources.push(sub_resources[i]);
+      }
     } else {
       new_resources.push(template.resources[r]);
     }
