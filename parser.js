@@ -133,12 +133,38 @@ function string_eval(str)
 /*
 ** Functions below will be called by eval() to interpret [] values
 ** TODO: implement all documented ARM functions
+** https://azure.microsoft.com/en-gb/documentation/articles/resource-group-template-functions/
 */
 
 function concat()
 {
   // TODO: I have a feeling this is a hack...
   return String.prototype.concat.apply('', arguments);
+}
+
+function add(op1, op2)
+{
+  return op1 + op2;
+}
+
+function sub(op1, op2)
+{
+  return op1 - op2;
+}
+
+function mod(op1, op2)
+{
+  return op1 % op2;
+}
+
+function div(op1, op2)
+{
+  return op1 / op2;
+}
+
+function string(op)
+{
+  return "" + op;
 }
 
 function resourceId(type, name)
@@ -167,6 +193,13 @@ function resourceGroup()
   return { id: 'mockRGId', name: 'mockRGName', location: "mockRGLocation" };
 }
 
+// Return a mock Deployment object
+// TODO: the Deployment object has more properties
+function deployment()
+{
+  return { name: 'mockDeploymentName' };
+}
+
 // Mock index
 function copyIndex()
 {
@@ -177,6 +210,12 @@ function copyIndex()
 function copyindex()
 {
   return 1;
+}
+
+// Mock uniqueString
+function uniqueString()
+{
+  return "MOCK_UNIQUE_STRING";
 }
 
 exports.parse = parse;
