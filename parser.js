@@ -1,4 +1,4 @@
-var template, params, vars = {};
+var template, params;
 
 function parse(baseDir, templateFile, templateParametersFile)
 {
@@ -79,11 +79,8 @@ function process_variables(t)
     } else if (typeof val === 'object') {
       val = process_values(val);
     }
-    vars[v] = val;      
+    t.variables[v] = val;      
   }
-
-  // Replace template variables with processed values
-  t.variables = vars;  
 }
 
 /*
@@ -93,13 +90,13 @@ function process_variables(t)
 function process_subtemplate(baseDir, fileName, stParameters)
 {
   var st = require(baseDir + '/' + fileName);
-  var save_params, save_vars;
+  var save_template, save_params;
 
-  // Re-use module-global variables
+  // Point to new template / parameters
   save_params = params;
-  save_vars = vars;
+  save_template = template;
   params = { parameters: stParameters };
-  vars = {};
+  template = st;
 
   process_params(st.parameters);
   process_variables(st);
@@ -107,7 +104,7 @@ function process_subtemplate(baseDir, fileName, stParameters)
 
   // Restore global variables
   params = save_params;
-  vars = save_vars;
+  template = save_template;
 
   return st.resources;
 }
@@ -196,7 +193,7 @@ function parameters(p)
 function variables(v)
 {
   if (v === 'templateBaseUrl') return "";
-  return vars[v];
+  return template.variables[v];
 }
 
 // Return a mock Resource Group object
