@@ -88,7 +88,10 @@ function process_variables(t)
       val = process_values(val);
       vars[v] = val;      
     }
-  }  
+  }
+  
+  // Replace template variables with processed values
+  t.variables = vars;  
 }
 
 /*
