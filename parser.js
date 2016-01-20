@@ -72,24 +72,16 @@ function process_variables(t)
 {
   var val;
   
-  // Pass 1: string variables
   for (var v in t.variables) {
     val = t.variables[v];
     if (typeof val === 'string') {
       val = string_eval(val);
+    } else if (typeof val === 'object') {
+      val = process_values(val);
     }
     vars[v] = val;      
   }
 
-  // Pass 2: object variables
-  for (var v in t.variables) {
-    val = t.variables[v];
-    if (typeof val === 'object') {
-      val = process_values(val);
-      vars[v] = val;      
-    }
-  }
-  
   // Replace template variables with processed values
   t.variables = vars;  
 }
