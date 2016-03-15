@@ -227,4 +227,38 @@ function uniqueString()
   return "MOCK_UNIQUE_STRING";
 }
 
+// Mock uniqueString... in lowercase
+function uniquestring()
+{
+  return "MOCK_UNIQUE_STRING";
+}
+
+// Mock subscription
+function subscription()
+{
+  return { id: "MOCK_SUB_ID", subscriptionId: "MOCK_SUB_ID" };
+}
+
+// split
+function split(inputString, delimiter)
+{
+  return String.prototype.split.apply(inputString, [ delimiter ]);
+}
+
+// int
+function int(valueToConvert) {
+  return parseInt(valueToConvert);
+}
+
+// Mock reference
+function reference(resource) {
+  return "MOCK_REFERENCE";
+}
+
+// substring
+function substring(str, start, end)
+{
+  return String.prototype.substring.apply(str, [start, end]);
+}
+
 exports.parse = parse;
